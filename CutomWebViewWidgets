@@ -1,0 +1,31 @@
+// ignore_for_file: file_names
+
+import 'dart:developer';
+
+import 'package:flutter/material.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+
+class CustomWebView extends StatelessWidget {
+  final String url, title;
+  const CustomWebView({Key? key, required this.url, required this.title})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    log(url);
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(title),
+        backgroundColor: const Color(0xff05ABD0),
+        // backgroundColor: AppBarTheme.of(context).backgroundColor,
+      ),
+      body: InAppWebView(
+        initialUrlRequest: URLRequest(url: Uri.parse(url)),
+        onReceivedServerTrustAuthRequest: (controller, challenge) async {
+          return ServerTrustAuthResponse(
+              action: ServerTrustAuthResponseAction.PROCEED);
+        },
+      ),
+    );
+  }
+}
